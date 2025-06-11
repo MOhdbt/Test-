@@ -1,866 +1,290 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #0e6e6d; -webkit-text-stroke: #0e6e6d}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; -webkit-text-stroke: #000000; min-height: 16.0px}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #4d5055; -webkit-text-stroke: #4d5055}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #18702b; -webkit-text-stroke: #18702b}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #6f0ec3; -webkit-text-stroke: #6f0ec3}
-    span.s1 {font-kerning: none; color: #6f0ec3; background-color: #ecf1f7; -webkit-text-stroke: 0px #6f0ec3}
-    span.s2 {font-kerning: none; background-color: #ecf1f7}
-    span.s3 {font-kerning: none; color: #0e6e6d; background-color: #ecf1f7; -webkit-text-stroke: 0px #0e6e6d}
-    span.s4 {font-kerning: none; color: #18702b; background-color: #ecf1f7; -webkit-text-stroke: 0px #18702b}
-    span.s5 {font-kerning: none; color: #000000; background-color: #ecf1f7; -webkit-text-stroke: 0px #000000}
-    span.s6 {font-kerning: none}
-    span.s7 {font-kerning: none; color: #a4450b; background-color: #ecf1f7; -webkit-text-stroke: 0px #a4450b}
-    span.s8 {font-kerning: none; color: #bf1c25; background-color: #ecf1f7; -webkit-text-stroke: 0px #bf1c25}
-  </style>
+  <meta charset="UTF-8"/>
+  <title>Complete Dashboard with KPIs & Strategy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script> <!-- Chart.js for all charts :contentReference[oaicite:8]{index=8} -->
 </head>
-<body>
-<p class="p1"><span class="s1">import</span><span class="s2"> </span><span class="s3">React</span><span class="s2">, { useState, useEffect } </span><span class="s1">from</span><span class="s2"> </span><span class="s4">'react'</span><span class="s2">;</span></p>
-<p class="p2"><span class="s1">import</span><span class="s5"> { </span><span class="s2">BarChart</span><span class="s5">, </span><span class="s2">Bar</span><span class="s5">, </span><span class="s2">XAxis</span><span class="s5">, </span><span class="s2">YAxis</span><span class="s5">, </span><span class="s2">CartesianGrid</span><span class="s5">, </span><span class="s2">Tooltip</span><span class="s5">, </span><span class="s2">Legend</span><span class="s5">, </span><span class="s2">ResponsiveContainer</span><span class="s5">, </span><span class="s2">PieChart</span><span class="s5">, </span><span class="s2">Pie</span><span class="s5">, </span><span class="s2">Cell</span><span class="s5">, </span><span class="s2">LineChart</span><span class="s5">, </span><span class="s2">Line</span><span class="s5"> } </span><span class="s1">from</span><span class="s5"> </span><span class="s4">'recharts'</span><span class="s5">;</span></p>
-<p class="p2"><span class="s1">import</span><span class="s5"> { </span><span class="s2">ChevronDown</span><span class="s5">, </span><span class="s2">ChevronRight</span><span class="s5">, </span><span class="s2">FileText</span><span class="s5">, </span><span class="s2">GanttChartSquare</span><span class="s5">, </span><span class="s2">Users</span><span class="s5">, </span><span class="s2">Shield</span><span class="s5">, </span><span class="s2">Target</span><span class="s5">, </span><span class="s2">DollarSign</span><span class="s5">, </span><span class="s2">Calendar</span><span class="s5">, </span><span class="s2">AlertTriangle</span><span class="s5">, </span><span class="s2">ListChecks</span><span class="s5">, </span><span class="s2">PlusCircle</span><span class="s5">, </span><span class="s2">Filter</span><span class="s5">, </span><span class="s2">Search</span><span class="s5">, </span><span class="s2">CheckCircle</span><span class="s5">, </span><span class="s2">XCircle</span><span class="s5">, </span><span class="s2">Clock</span><span class="s5">, </span><span class="s2">ArrowRight</span><span class="s5">, </span><span class="s2">User</span><span class="s5">, </span><span class="s2">Building</span><span class="s5">, </span><span class="s2">Briefcase</span><span class="s5">, </span><span class="s2">Download</span><span class="s5">, </span><span class="s2">Edit</span><span class="s5">, </span><span class="s2">Save</span><span class="s5"> } </span><span class="s1">from</span><span class="s5"> </span><span class="s4">'lucide-react'</span><span class="s5">;</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p4"><span class="s2">// --- MOCK DATA (based on provided files) ---</span></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> initialProjects = [</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>id: </span><span class="s7">1</span><span class="s2">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>name: </span><span class="s2">"Cybersecurity Infrastructure Upgrade"</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>manager: </span><span class="s4">"Alex Green"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>department: </span><span class="s4">"IT Security"</span><span class="s2">,</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span>status: </span><span class="s4">"Executing"</span><span class="s5">, </span><span class="s2">// Initiation, Planning, Executing, Monitoring, Closing</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span>approval: </span><span class="s4">"Approved"</span><span class="s5">, </span><span class="s2">// Pending, Approved, Rejected</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>priority: </span><span class="s4">"High"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>startDate: </span><span class="s4">"2024-08-01"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>endDate: </span><span class="s4">"2025-02-28"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>budget: </span><span class="s7">250000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>spent: </span><span class="s7">110000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>progress: </span><span class="s7">45</span><span class="s2">,</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span>health: </span><span class="s4">"On Track"</span><span class="s5">, </span><span class="s2">// On Track, Minor Issues, At Risk</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>businessCase: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>problem: </span><span class="s2">"Our current firewall and intrusion detection systems are outdated and unable to cope with modern cyber threats, posing a significant risk to company data."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>solution: </span><span class="s2">"Deploy a next-generation firewall (NGFW) and an advanced endpoint detection and response (EDR) solution across the enterprise."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>benefits: [</span><span class="s2">"Reduce security incidents by 50%"</span><span class="s5">, </span><span class="s2">"Achieve 99% compliance with data protection regulations"</span><span class="s5">, </span><span class="s2">"Faster incident response time"</span><span class="s5">],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>projectCharter: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeIn: [</span><span class="s2">"NGFW implementation"</span><span class="s5">, </span><span class="s2">"EDR deployment on all endpoints"</span><span class="s5">, </span><span class="s2">"Staff training"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeOut: [</span><span class="s2">"Physical security systems"</span><span class="s5">, </span><span class="s2">"Employee personal devices"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>successCriteria: </span><span class="s2">"Successful penetration test with no critical vulnerabilities found."</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>tasks: [</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'1'</span><span class="s2">, name: </span><span class="s4">'Project Initiation'</span><span class="s2">, start: </span><span class="s4">'2024-08-01'</span><span class="s2">, end: </span><span class="s4">'2024-08-15'</span><span class="s2">, progress: </span><span class="s7">100</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'2'</span><span class="s2">, name: </span><span class="s4">'Vendor Selection'</span><span class="s2">, start: </span><span class="s4">'2024-08-16'</span><span class="s2">, end: </span><span class="s4">'2024-09-10'</span><span class="s2">, progress: </span><span class="s7">100</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'3'</span><span class="s2">, name: </span><span class="s4">'Infrastructure Design'</span><span class="s2">, start: </span><span class="s4">'2024-09-11'</span><span class="s2">, end: </span><span class="s4">'2024-10-20'</span><span class="s2">, progress: </span><span class="s7">75</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'4'</span><span class="s2">, name: </span><span class="s4">'Hardware Procurement'</span><span class="s2">, start: </span><span class="s4">'2024-10-21'</span><span class="s2">, end: </span><span class="s4">'2024-11-30'</span><span class="s2">, progress: </span><span class="s7">50</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'5'</span><span class="s2">, name: </span><span class="s4">'System Implementation'</span><span class="s2">, start: </span><span class="s4">'2024-12-01'</span><span class="s2">, end: </span><span class="s4">'2025-01-31'</span><span class="s2">, progress: </span><span class="s7">10</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'6'</span><span class="s2">, name: </span><span class="s4">'User Training'</span><span class="s2">, start: </span><span class="s4">'2025-02-01'</span><span class="s2">, end: </span><span class="s4">'2025-02-20'</span><span class="s2">, progress: </span><span class="s7">0</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'7'</span><span class="s2">, name: </span><span class="s4">'Project Go-Live'</span><span class="s2">, start: </span><span class="s4">'2025-02-21'</span><span class="s2">, end: </span><span class="s4">'2025-02-28'</span><span class="s2">, progress: </span><span class="s7">0</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>risks: [</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>{ id: </span><span class="s7">1</span><span class="s5">, desc: </span><span class="s2">"Vendor supply chain delays"</span><span class="s5">, severity: </span><span class="s2">"Medium"</span><span class="s5">, mitigation: </span><span class="s2">"Identify alternative vendors and pre-order critical components."</span><span class="s5">, owner: </span><span class="s2">"Alex Green"</span><span class="s5"> },</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>{ id: </span><span class="s7">2</span><span class="s5">, desc: </span><span class="s2">"Integration issues with legacy systems"</span><span class="s5">, severity: </span><span class="s2">"High"</span><span class="s5">, mitigation: </span><span class="s2">"Conduct thorough compatibility testing in a staging environment."</span><span class="s5">, owner: </span><span class="s2">"Tech Lead"</span><span class="s5"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>changeRequests: [</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>{ id: </span><span class="s7">1</span><span class="s5">, desc: </span><span class="s2">"Add cloud-based sandboxing feature."</span><span class="s5">, reason: </span><span class="s2">"Enhanced threat detection."</span><span class="s5">, status: </span><span class="s2">"Approved"</span><span class="s5">, date: </span><span class="s2">"2024-10-05"</span><span class="s5"> },</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>{ id: </span><span class="s7">2</span><span class="s5">, desc: </span><span class="s2">"Extend project timeline by 2 weeks"</span><span class="s5">, reason: </span><span class="s2">"Hardware delivery delay."</span><span class="s5">, status: </span><span class="s2">"Pending"</span><span class="s5">, date: </span><span class="s2">"2024-11-15"</span><span class="s5"> }</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>stakeholders: [</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ name: </span><span class="s4">"Dana White"</span><span class="s2">, role: </span><span class="s4">"CISO (Sponsor)"</span><span class="s2">, influence: </span><span class="s4">"High"</span><span class="s2">, interest: </span><span class="s4">"High"</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ name: </span><span class="s4">"Ben Carter"</span><span class="s2">, role: </span><span class="s4">"IT Director"</span><span class="s2">, influence: </span><span class="s4">"Medium"</span><span class="s2">, interest: </span><span class="s4">"High"</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ name: </span><span class="s4">"Eva Long"</span><span class="s2">, role: </span><span class="s4">"Legal &amp; Compliance"</span><span class="s2">, influence: </span><span class="s4">"Medium"</span><span class="s2">, interest: </span><span class="s4">"Medium"</span><span class="s2"> }</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>]</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>id: </span><span class="s7">2</span><span class="s2">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>name: </span><span class="s2">"New CRM Platform Implementation"</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>manager: </span><span class="s4">"Brenda Smith"</span><span class="s2">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>department: </span><span class="s2">"Sales &amp; Marketing"</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>status: </span><span class="s4">"Planning"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>approval: </span><span class="s4">"Pending"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>priority: </span><span class="s4">"High"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>startDate: </span><span class="s4">"2024-09-01"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>endDate: </span><span class="s4">"2025-04-30"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>budget: </span><span class="s7">400000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>spent: </span><span class="s7">25000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>progress: </span><span class="s7">15</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>health: </span><span class="s4">"On Track"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>businessCase: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>problem: </span><span class="s2">"The current CRM is inefficient, lacks key integrations, and results in lost sales opportunities."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>solution: </span><span class="s2">"Implement a modern, cloud-based CRM with marketing automation and sales analytics features."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>benefits: [</span><span class="s2">"Increase sales team productivity by 20%"</span><span class="s5">, </span><span class="s2">"Improve lead conversion rate by 15%"</span><span class="s5">],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>projectCharter: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeIn: [</span><span class="s2">"Data migration from old CRM"</span><span class="s5">, </span><span class="s2">"Salesforce platform configuration"</span><span class="s5">, </span><span class="s2">"Integration with Hubspot"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeOut: [</span><span class="s2">"Custom report development beyond standard features"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>successCriteria: </span><span class="s2">"95% of sales team actively using the new CRM within 3 months of go-live."</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">     </span>tasks: [</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'1'</span><span class="s2">, name: </span><span class="s4">'Requirement Gathering'</span><span class="s2">, start: </span><span class="s4">'2024-09-01'</span><span class="s2">, end: </span><span class="s4">'2024-09-30'</span><span class="s2">, progress: </span><span class="s7">100</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'2'</span><span class="s2">, name: </span><span class="s4">'CRM Platform Selection'</span><span class="s2">, start: </span><span class="s4">'2024-10-01'</span><span class="s2">, end: </span><span class="s4">'2024-10-31'</span><span class="s2">, progress: </span><span class="s7">80</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{ id: </span><span class="s4">'3'</span><span class="s2">, name: </span><span class="s4">'Data Migration Plan'</span><span class="s2">, start: </span><span class="s4">'2024-11-01'</span><span class="s2">, end: </span><span class="s4">'2024-11-30'</span><span class="s2">, progress: </span><span class="s7">20</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>risks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>changeRequests: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>stakeholders: []</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">   </span>{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>id: </span><span class="s7">3</span><span class="s2">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>name: </span><span class="s2">"Q4 Marketing Campaign"</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>manager: </span><span class="s2">"Charles Brown"</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>department: </span><span class="s4">"Marketing"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>status: </span><span class="s4">"Initiation"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>approval: </span><span class="s4">"Pending"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>priority: </span><span class="s4">"Medium"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>startDate: </span><span class="s4">"2024-10-01"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>endDate: </span><span class="s4">"2024-12-31"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>budget: </span><span class="s7">150000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>spent: </span><span class="s7">5000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>progress: </span><span class="s7">5</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>health: </span><span class="s4">"On Track"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>businessCase: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>problem: </span><span class="s2">"Need to boost end-of-year sales and brand visibility."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>solution: </span><span class="s2">"Launch a multi-channel digital marketing campaign targeting key demographics."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>benefits: [</span><span class="s2">"Increase website traffic by 30%"</span><span class="s5">, </span><span class="s2">"Generate 500 qualified leads."</span><span class="s5">],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">     </span>projectCharter: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeIn: [</span><span class="s2">"Social media ads"</span><span class="s5">, </span><span class="s2">"Email marketing"</span><span class="s5">, </span><span class="s2">"Content creation"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeOut: [</span><span class="s2">"TV commercials"</span><span class="s5">, </span><span class="s2">"Print advertising"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>successCriteria: </span><span class="s2">"Achieve a Return on Ad Spend (ROAS) of 3:1."</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>tasks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>risks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>changeRequests: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>stakeholders: []</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>{</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>id: </span><span class="s7">4</span><span class="s2">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>name: </span><span class="s2">"Mobile App Revamp"</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>manager: </span><span class="s4">"Diana Prince"</span><span class="s2">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>department: </span><span class="s2">"Product Development"</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>status: </span><span class="s4">"Closing"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>approval: </span><span class="s4">"Approved"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>priority: </span><span class="s4">"Low"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>startDate: </span><span class="s4">"2024-01-15"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>endDate: </span><span class="s4">"2024-08-30"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>budget: </span><span class="s7">180000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>spent: </span><span class="s7">175000</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>progress: </span><span class="s7">100</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>health: </span><span class="s4">"Completed"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>businessCase: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>problem: </span><span class="s2">"User engagement on the mobile app has dropped due to an outdated UI and poor performance."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>solution: </span><span class="s2">"Redesign the user interface, improve performance, and add new features based on user feedback."</span><span class="s5">,</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>benefits: [</span><span class="s2">"Increase daily active users by 25%"</span><span class="s5">, </span><span class="s2">"Improve app store rating to 4.5 stars."</span><span class="s5">],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>projectCharter: {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeIn: [</span><span class="s2">"UI/UX redesign"</span><span class="s5">, </span><span class="s2">"Performance optimization"</span><span class="s5">, </span><span class="s2">"New feature integration"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>scopeOut: [</span><span class="s2">"Backend server migration"</span><span class="s5">],</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>successCriteria: </span><span class="s2">"Achieve target user engagement and app store rating within 2 months of launch."</span><span class="s5">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>},</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>tasks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>risks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>changeRequests: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>stakeholders: []</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s2">];</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p4"><span class="s2">// --- STYLING &amp; HELPER COMPONENTS ---</span></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">Card</span><span class="s2"> = ({ children, className = </span><span class="s4">''</span><span class="s2"> }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">  </span>&lt;div className={</span><span class="s2">`bg-white rounded-lg shadow-md p-4 sm:p-6 </span><span class="s5">${className}</span><span class="s2">`</span><span class="s5">}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>{children}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">SectionTitle</span><span class="s2"> = ({ icon, text }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>&lt;h2 className=</span><span class="s2">"text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{icon}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span className=</span><span class="s4">"ml-2"</span><span class="s2">&gt;{text}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">KpiCard</span><span class="s2"> = ({ title, value, icon, color }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">  </span>&lt;</span><span class="s3">Card</span><span class="s5"> className=</span><span class="s2">"flex-1 min-w-[200px]"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s4">"flex items-center"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div className={</span><span class="s4">`rounded-full p-3 </span><span class="s2">${color.bg}</span><span class="s4"> </span><span class="s2">${color.text}</span><span class="s4">`</span><span class="s2">}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{icon}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div className=</span><span class="s4">"ml-4"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;p className=</span><span class="s4">"text-sm text-gray-500"</span><span class="s2">&gt;{title}&lt;/p&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;p className=</span><span class="s2">"text-2xl font-bold text-gray-800"</span><span class="s5">&gt;{value}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> getStatusColor = (status) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">switch</span><span class="s2"> (status) {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Executing'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-blue-100 text-blue-800'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Planning'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-yellow-100 text-yellow-800'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Closing'</span><span class="s5">:</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Completed'</span><span class="s5">:</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-gray-100 text-gray-800'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Initiation'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-purple-100 text-purple-800'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">default</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-gray-200 text-gray-800'</span><span class="s5">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s2">};</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> getHealthColor = (health) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">switch</span><span class="s2"> (health) {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'On Track'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'text-green-600'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Minor Issues'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'text-yellow-600'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'At Risk'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'text-red-600'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Completed'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'text-gray-600'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span></span><span class="s1">default</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'text-gray-500'</span><span class="s5">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s2">};</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> getPriorityColor = (priority) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">switch</span><span class="s2"> (priority) {</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'High'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-red-500'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Medium'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-yellow-500'</span><span class="s5">;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">case</span><span class="s5"> </span><span class="s2">'Low'</span><span class="s5">: </span><span class="s1">return</span><span class="s5"> </span><span class="s2">'bg-green-500'</span><span class="s5">;</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">default</span><span class="s5">: </span><span class="s2">return</span><span class="s5"> </span><span class="s4">'bg-gray-400'</span><span class="s5">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s2">}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">ProgressBar</span><span class="s2"> = ({ value }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">  </span>&lt;div className=</span><span class="s2">"w-full bg-gray-200 rounded-full h-2.5"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s4">"bg-blue-600 h-2.5 rounded-full"</span><span class="s2"> style={{ width: </span><span class="s4">`</span><span class="s2">${value}</span><span class="s4">%`</span><span class="s2"> }}&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">TabButton</span><span class="s2"> = ({ text, active, onClick }) =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>&lt;button</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>onClick={onClick}</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>className={</span><span class="s2">`px-4 py-2 font-semibold rounded-t-lg transition-colors duration-200 focus:outline-none </span><span class="s5">${</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>active</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>? </span><span class="s2">'border-b-2 border-blue-600 text-blue-600'</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>: </span><span class="s2">'text-gray-500 hover:text-blue-500'</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>}</span><span class="s4">`</span><span class="s2">}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>{text}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">Modal</span><span class="s2"> = ({ children, onClose }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s2">"fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-full overflow-y-auto"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span>&lt;div className=</span><span class="s2">"sticky top-0 bg-white p-4 border-b flex justify-between items-center"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;h2 className=</span><span class="s4">"text-xl font-bold"</span><span class="s2">&gt;</span><span class="s3">New</span><span class="s2"> </span><span class="s3">Project</span><span class="s2">&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;button onClick={onClose} className=</span><span class="s4">"text-gray-500 hover:text-gray-800"</span><span class="s2">&gt;&lt;</span><span class="s3">XCircle</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;div className=</span><span class="s4">"p-6"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>{children}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p4"><span class="s2">// --- PROJECT DETAIL SUB-COMPONENTS (Bug Fix) ---</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">DocumentCard</span><span class="s2"> = ({ children, icon, title }) =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;</span><span class="s3">Card</span><span class="s2"> className=</span><span class="s4">"mb-6"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span>&lt;h3 className=</span><span class="s2">"text-lg font-bold text-gray-700 mb-3 flex items-center"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>{icon}&lt;span className=</span><span class="s4">"ml-2"</span><span class="s2">&gt;{title}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>{children}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">EditableField</span><span class="s2"> = ({ label, value, name, area, isEditing, isTextarea = </span><span class="s1">false</span><span class="s2">, onChange }) =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s4">"mb-2"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;label className=</span><span class="s4">"text-sm font-semibold text-gray-500"</span><span class="s2">&gt;{label}&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>{isEditing ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>isTextarea ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span>&lt;textarea<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>value={value}<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>onChange={(e) =&gt; onChange(area, name, e.target.value)}<span class="Apple-converted-space"> </span></span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>className=</span><span class="s2">"mt-1 block w-full border-gray-300 rounded-md shadow-sm text-md text-gray-800"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>rows=</span><span class="s4">"3"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span>/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>) : (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;input<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span></span><span class="s1">type</span><span class="s2">=</span><span class="s4">"text"</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>value={value}<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>onChange={(e) =&gt; onChange(area, name, e.target.value)}<span class="Apple-converted-space"> </span></span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>className=</span><span class="s2">"mt-1 block w-full border-gray-300 rounded-md shadow-sm text-md text-gray-800"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>)</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>) : (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;p className=</span><span class="s2">"text-md text-gray-800 whitespace-pre-wrap"</span><span class="s5">&gt;{value}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">SummaryTab</span><span class="s2"> = ({ isEditing, editedProject, project, handleInputChange, handleNestedInputChange }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span>&lt;div className=</span><span class="s2">"grid grid-cols-1 md:grid-cols-3 gap-6"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"md:col-span-2 space-y-6"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">DocumentCard</span><span class="s2"> title=</span><span class="s4">"Business Case"</span><span class="s2"> icon={&lt;</span><span class="s3">Target</span><span class="s2"> size={</span><span class="s7">20</span><span class="s2">} /&gt;}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">EditableField</span><span class="s2"> label=</span><span class="s4">"Problem/Opportunity"</span><span class="s2"> value={editedProject.businessCase.problem} name=</span><span class="s4">"problem"</span><span class="s2"> area=</span><span class="s4">"businessCase"</span><span class="s2"> isTextarea={</span><span class="s1">true</span><span class="s2">} isEditing={isEditing} onChange={handleNestedInputChange} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">EditableField</span><span class="s2"> label=</span><span class="s4">"Proposed Solution"</span><span class="s2"> value={editedProject.businessCase.solution} name=</span><span class="s4">"solution"</span><span class="s2"> area=</span><span class="s4">"businessCase"</span><span class="s2"> isTextarea={</span><span class="s1">true</span><span class="s2">} isEditing={isEditing} onChange={handleNestedInputChange}/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s3">DocumentCard</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">DocumentCard</span><span class="s2"> title=</span><span class="s4">"Project Charter"</span><span class="s2"> icon={&lt;</span><span class="s3">FileText</span><span class="s2"> size={</span><span class="s7">20</span><span class="s2">} /&gt;}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>&lt;</span><span class="s3">EditableField</span><span class="s2"> label=</span><span class="s4">"Success Criteria"</span><span class="s2"> value={editedProject.projectCharter.successCriteria} name=</span><span class="s4">"successCriteria"</span><span class="s2"> area=</span><span class="s4">"projectCharter"</span><span class="s2"> isTextarea={</span><span class="s1">true</span><span class="s2">} isEditing={isEditing} onChange={handleNestedInputChange}/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s3">DocumentCard</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"md:col-span-1 space-y-6"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;h3 className=</span><span class="s2">"text-lg font-bold text-gray-700 mb-3"</span><span class="s5">&gt;</span><span class="s3">Project</span><span class="s5"> </span><span class="s3">Health</span><span class="s5">&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;div className=</span><span class="s4">"space-y-4"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"text-sm font-semibold text-gray-500"</span><span class="s2">&gt;</span><span class="s3">Overall</span><span class="s2"> </span><span class="s3">Status</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>{isEditing ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                             </span>&lt;select name=</span><span class="s4">"status"</span><span class="s2"> value={editedProject.status} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm text-md text-gray-800"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Initiation</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Planning</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Executing</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Monitoring</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Closing</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Completed</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>) : &lt;p className=</span><span class="s4">"text-md text-gray-800"</span><span class="s2">&gt;{project.status}&lt;/p&gt;}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;h3 className=</span><span class="s2">"text-lg font-bold text-gray-700 mb-3"</span><span class="s5">&gt;</span><span class="s3">Budget</span><span class="s5">&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;div className=</span><span class="s4">"text-center mt-2"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;p className=</span><span class="s4">"text-gray-600"</span><span class="s2">&gt;</span><span class="s3">Spent</span><span class="s2">: ${project.spent.toLocaleString()}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;div className=</span><span class="s4">"flex items-center justify-center"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"text-gray-800 font-bold mr-2"</span><span class="s2">&gt;</span><span class="s3">Total</span><span class="s2">:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>{isEditing ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"number"</span><span class="s2"> name=</span><span class="s4">"budget"</span><span class="s2"> value={editedProject.budget} onChange={handleInputChange} className=</span><span class="s4">"font-bold border-gray-300 rounded-md shadow-sm"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>) : (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                             </span>&lt;p className=</span><span class="s4">"text-gray-800 font-bold"</span><span class="s2">&gt;${project.budget.toLocaleString()}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">GanttTab</span><span class="s2"> = ({ project }) =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">GanttChartSquare</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Project Schedule (Gantt)"</span><span class="s2"> /&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"w-full overflow-x-auto p-4 bg-gray-50 rounded-lg"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{project.tasks.length &gt; </span><span class="s7">0</span><span class="s2"> ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;div style={{minWidth: </span><span class="s4">'800px'</span><span class="s2">}}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>{project.tasks.map((task) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> startDate = </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">(task.start);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> endDate = </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">(task.end);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> projectStartDate = </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">(project.startDate);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> projectEndDate = </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">(project.endDate);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">if</span><span class="s2"> (isNaN(projectStartDate) || isNaN(projectEndDate) || projectEndDate &lt;= projectStartDate) </span><span class="s1">return</span><span class="s2"> </span><span class="s1">null</span><span class="s2">;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> totalDuration = projectEndDate - projectStartDate;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> taskStartOffset = ((startDate - projectStartDate) / totalDuration) * </span><span class="s7">100</span><span class="s2">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">const</span><span class="s2"> taskDuration = ((endDate - startDate) / totalDuration) * </span><span class="s7">100</span><span class="s2">;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span></span><span class="s1">return</span><span class="s2"> (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;div key={task.id} className=</span><span class="s4">"flex items-center my-2"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;div className=</span><span class="s4">"w-1/4 pr-4 truncate"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;p className=</span><span class="s4">"font-medium text-sm text-gray-700"</span><span class="s2">&gt;{task.name}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;div className=</span><span class="s4">"w-3/4 bg-gray-200 rounded-lg h-8 relative"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;div<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                    </span>className=</span><span class="s4">"absolute bg-blue-500 h-full rounded-lg"</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                    </span>style={{ left: </span><span class="s4">`</span><span class="s2">${taskStartOffset}</span><span class="s4">%`</span><span class="s2">, width: </span><span class="s4">`</span><span class="s2">${taskDuration}</span><span class="s4">%`</span><span class="s2"> }}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                    </span>&lt;div className=</span><span class="s4">"absolute top-0 left-0 h-full bg-blue-700 rounded-l-lg"</span><span class="s2"> style={{ width: </span><span class="s4">`</span><span class="s2">${task.progress}</span><span class="s4">%`</span><span class="s2"> }}&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                    </span>&lt;span className=</span><span class="s4">"text-white text-xs absolute left-2 top-1/2 -translate-y-1/2"</span><span class="s2">&gt;{task.progress}%&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>})}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>) : &lt;p className=</span><span class="s4">"text-gray-500"</span><span class="s2">&gt;</span><span class="s3">No</span><span class="s2"> tasks defined </span><span class="s1">for</span><span class="s2"> </span><span class="s1">this</span><span class="s2"> project yet.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">StakeholdersTab</span><span class="s2"> = ({ project }) =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">Users</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Stakeholder Analysis"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{project.stakeholders.length &gt; </span><span class="s7">0</span><span class="s2"> ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s4">"overflow-x-auto"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;table className=</span><span class="s4">"w-full text-left"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;thead&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;tr className=</span><span class="s4">"border-b bg-gray-50"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Name</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Role</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Influence</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Interest</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/thead&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;tbody&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>{project.stakeholders.map((s, i) =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;tr key={i} className=</span><span class="s4">"border-b"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;td className=</span><span class="s4">"p-3 font-medium text-gray-800"</span><span class="s2">&gt;{s.name}&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;td className=</span><span class="s4">"p-3 text-gray-600"</span><span class="s2">&gt;{s.role}&lt;/td&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                            </span>&lt;td className=</span><span class="s2">"p-3"</span><span class="s5">&gt;&lt;span className={</span><span class="s2">`px-2 py-1 text-xs font-semibold rounded-full </span><span class="s5">${s.influence === </span><span class="s2">'High'</span><span class="s5"> ? </span><span class="s2">'bg-red-100 text-red-800'</span><span class="s5"> : </span><span class="s2">'bg-yellow-100 text-yellow-800'</span><span class="s5">}</span><span class="s2">`</span><span class="s5">}&gt;{s.influence}&lt;/span&gt;&lt;/td&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                            </span>&lt;td className=</span><span class="s2">"p-3"</span><span class="s5">&gt;&lt;span className={</span><span class="s2">`px-2 py-1 text-xs font-semibold rounded-full </span><span class="s5">${s.interest === </span><span class="s2">'High'</span><span class="s5"> ? </span><span class="s2">'bg-green-100 text-green-800'</span><span class="s5"> : </span><span class="s2">'bg-blue-100 text-blue-800'</span><span class="s5">}</span><span class="s2">`</span><span class="s5">}&gt;{s.interest}&lt;/span&gt;&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;/tr&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/tbody&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/table&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;) : &lt;p className=</span><span class="s4">"text-gray-500"</span><span class="s2">&gt;</span><span class="s3">No</span><span class="s2"> stakeholders listed.&lt;/p&gt;}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">RisksAndChangesTab</span><span class="s2"> = ({ project }) =&gt; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s2">"grid grid-cols-1 lg:grid-cols-2 gap-6"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">AlertTriangle</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Risk Register"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span>{project.risks.length &gt; </span><span class="s7">0</span><span class="s2"> ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">               </span>&lt;div className=</span><span class="s4">"space-y-4"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>{project.risks.map(r =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;div key={r.id} className=</span><span class="s4">"p-3 bg-gray-50 rounded-lg"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                        </span>&lt;p className=</span><span class="s2">"font-bold text-gray-800"</span><span class="s5">&gt;{r.desc} &lt;span className={</span><span class="s2">`ml-2 text-xs font-bold px-2 py-0.5 rounded-full </span><span class="s5">${r.severity === </span><span class="s2">'High'</span><span class="s5"> ? </span><span class="s2">'bg-red-200 text-red-800'</span><span class="s5"> : </span><span class="s2">'bg-yellow-200 text-yellow-800'</span><span class="s5">}</span><span class="s2">`</span><span class="s5">}&gt;{r.severity}&lt;/span&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;p className=</span><span class="s4">"text-sm text-gray-600 mt-1"</span><span class="s2">&gt;&lt;span className=</span><span class="s4">"font-semibold"</span><span class="s2">&gt;</span><span class="s3">Mitigation</span><span class="s2">:&lt;/span&gt; {r.mitigation}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;p className=</span><span class="s4">"text-sm text-gray-500 mt-1"</span><span class="s2">&gt;&lt;span className=</span><span class="s4">"font-semibold"</span><span class="s2">&gt;</span><span class="s3">Owner</span><span class="s2">:&lt;/span&gt; {r.owner}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span>) : &lt;p className=</span><span class="s4">"text-gray-500"</span><span class="s2">&gt;</span><span class="s3">No</span><span class="s2"> risks identified.&lt;/p&gt;}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">GanttChartSquare</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Change Requests"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>{project.changeRequests.length &gt; </span><span class="s7">0</span><span class="s2"> ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;div className=</span><span class="s4">"space-y-4"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>{project.changeRequests.map(cr =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;div key={cr.id} className=</span><span class="s4">"p-3 bg-gray-50 rounded-lg"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                         </span>&lt;p className=</span><span class="s4">"font-bold text-gray-800"</span><span class="s2">&gt;{cr.desc}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                         </span>&lt;p className=</span><span class="s4">"text-sm text-gray-600 mt-1"</span><span class="s2">&gt;&lt;span className=</span><span class="s4">"font-semibold"</span><span class="s2">&gt;</span><span class="s3">Reason</span><span class="s2">:&lt;/span&gt; {cr.reason}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                         </span>&lt;div className=</span><span class="s4">"flex justify-between items-center mt-2"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                              </span>&lt;p className=</span><span class="s4">"text-sm text-gray-500"</span><span class="s2">&gt;&lt;span className=</span><span class="s4">"font-semibold"</span><span class="s2">&gt;</span><span class="s3">Date</span><span class="s2">:&lt;/span&gt; {cr.date}&lt;/p&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                              </span>&lt;span className={</span><span class="s2">`px-2 py-1 text-xs font-bold rounded-full </span><span class="s5">${cr.status === </span><span class="s2">'Approved'</span><span class="s5"> ? </span><span class="s2">'bg-green-100 text-green-800'</span><span class="s5"> : cr.status === </span><span class="s2">'Rejected'</span><span class="s5"> ? </span><span class="s2">'bg-red-100 text-red-800'</span><span class="s5"> : </span><span class="s2">'bg-yellow-100 text-yellow-800'</span><span class="s5">}</span><span class="s2">`</span><span class="s5">}&gt;{cr.status}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                         </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>) : &lt;p className=</span><span class="s4">"text-gray-500"</span><span class="s2">&gt;</span><span class="s3">No</span><span class="s2"> change requests submitted.&lt;/p&gt;}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2">);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p4"><span class="s2">// --- DASHBOARD COMPONENTS ---</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">DashboardOverview</span><span class="s2"> = ({ projects, onProjectSelect, userRole, onAddNewProject }) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [isModalOpen, setIsModalOpen] = useState(</span><span class="s1">false</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [newProject, setNewProject] = useState({ name: </span><span class="s4">''</span><span class="s2">, department: </span><span class="s4">''</span><span class="s2">, budget: </span><span class="s4">''</span><span class="s2">, startDate: </span><span class="s4">''</span><span class="s2">, endDate: </span><span class="s4">''</span><span class="s2"> });</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleInputChange = (e) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> { name, value } = e.target;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setNewProject(prev =&gt; ({...prev, [name]: value}));</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleSubmit = (e) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>e.preventDefault();</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>onAddNewProject({</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>...newProject,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>budget: parseFloat(newProject.budget) || </span><span class="s7">0</span><span class="s2">,</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">          </span>manager: </span><span class="s4">"Alex Green"</span><span class="s5"> </span><span class="s2">// Or derive from logged in user</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>});</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setIsModalOpen(</span><span class="s1">false</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setNewProject({ name: </span><span class="s4">''</span><span class="s2">, department: </span><span class="s4">''</span><span class="s2">, budget: </span><span class="s4">''</span><span class="s2">, startDate: </span><span class="s4">''</span><span class="s2">, endDate: </span><span class="s4">''</span><span class="s2"> });</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> portfolioHealthData = [</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>{ name: </span><span class="s4">'On Track'</span><span class="s2">, value: projects.filter(p =&gt; p.health === </span><span class="s4">'On Track'</span><span class="s2">).length, color: </span><span class="s4">'#10B981'</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>{ name: </span><span class="s4">'Minor Issues'</span><span class="s2">, value: projects.filter(p =&gt; p.health === </span><span class="s4">'Minor Issues'</span><span class="s2">).length, color: </span><span class="s4">'#F59E0B'</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>{ name: </span><span class="s4">'At Risk'</span><span class="s2">, value: projects.filter(p =&gt; p.health === </span><span class="s4">'At Risk'</span><span class="s2">).length, color: </span><span class="s4">'#EF4444'</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>{ name: </span><span class="s4">'Completed'</span><span class="s2">, value: projects.filter(p =&gt; p.health === </span><span class="s4">'Completed'</span><span class="s2">).length, color: </span><span class="s4">'#6B7280'</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>];</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> budgetData = projects.map(p =&gt; ({</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>name: p.name.slice(</span><span class="s7">0</span><span class="s2">, </span><span class="s7">15</span><span class="s2">) + (p.name.length &gt; </span><span class="s7">15</span><span class="s2"> ? </span><span class="s4">'...'</span><span class="s2"> : </span><span class="s4">''</span><span class="s2">),</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s3">Budget</span><span class="s2">: p.budget,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s3">Spent</span><span class="s2">: p.spent,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}));</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> totalBudget = projects.reduce((sum, p) =&gt; sum + p.budget, </span><span class="s7">0</span><span class="s2">);</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s4">"space-y-6"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{isModalOpen &amp;&amp; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">Modal</span><span class="s2"> onClose={() =&gt; setIsModalOpen(</span><span class="s1">false</span><span class="s2">)}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;form onSubmit={handleSubmit} className=</span><span class="s4">"space-y-4"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                   </span>&lt;div className=</span><span class="s2">"grid grid-cols-1 md:grid-cols-2 gap-4"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"block text-sm font-medium text-gray-700"</span><span class="s2">&gt;</span><span class="s3">Project</span><span class="s2"> </span><span class="s3">Name</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"text"</span><span class="s2"> name=</span><span class="s4">"name"</span><span class="s2"> value={newProject.name} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm"</span><span class="s2"> required/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"block text-sm font-medium text-gray-700"</span><span class="s2">&gt;</span><span class="s3">Department</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"text"</span><span class="s2"> name=</span><span class="s4">"department"</span><span class="s2"> value={newProject.department} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm"</span><span class="s2"> required/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"block text-sm font-medium text-gray-700"</span><span class="s2">&gt;</span><span class="s3">Total</span><span class="s2"> </span><span class="s3">Budget</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"number"</span><span class="s2"> name=</span><span class="s4">"budget"</span><span class="s2"> value={newProject.budget} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm"</span><span class="s2"> required/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"block text-sm font-medium text-gray-700"</span><span class="s2">&gt;</span><span class="s3">Priority</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;select name=</span><span class="s4">"priority"</span><span class="s2"> value={newProject.priority} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;option&gt;</span><span class="s3">High</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;option&gt;</span><span class="s3">Medium</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;option&gt;</span><span class="s3">Low</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"block text-sm font-medium text-gray-700"</span><span class="s2">&gt;</span><span class="s3">Start</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"date"</span><span class="s2"> name=</span><span class="s4">"startDate"</span><span class="s2"> value={newProject.startDate} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm"</span><span class="s2"> required/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                      </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;label className=</span><span class="s4">"block text-sm font-medium text-gray-700"</span><span class="s2">&gt;</span><span class="s3">End</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"date"</span><span class="s2"> name=</span><span class="s4">"endDate"</span><span class="s2"> value={newProject.endDate} onChange={handleInputChange} className=</span><span class="s4">"mt-1 block w-full border-gray-300 rounded-md shadow-sm"</span><span class="s2"> required/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                   </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                   </span>&lt;div className=</span><span class="s4">"flex justify-end pt-4"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                      </span>&lt;button </span><span class="s1">type</span><span class="s5">=</span><span class="s2">"submit"</span><span class="s5"> className=</span><span class="s2">"bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"</span><span class="s5">&gt;&lt;</span><span class="s3">PlusCircle</span><span class="s5"> size={</span><span class="s7">16</span><span class="s5">} className=</span><span class="s2">"mr-2"</span><span class="s5">/&gt; </span><span class="s3">Add</span><span class="s5"> </span><span class="s3">Project</span><span class="s5">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                   </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/form&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s3">Modal</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>)}</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span>&lt;div className=</span><span class="s2">"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">KpiCard</span><span class="s2"> title=</span><span class="s4">"Active Projects"</span><span class="s2"> value={projects.filter(p =&gt; p.status !== </span><span class="s4">'Closing'</span><span class="s2">).length} icon={&lt;</span><span class="s3">Briefcase</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} color={{bg: </span><span class="s4">'bg-blue-100'</span><span class="s2">, text: </span><span class="s4">'text-blue-600'</span><span class="s2">}} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">KpiCard</span><span class="s2"> title=</span><span class="s4">"Pending Approvals"</span><span class="s2"> value={projects.filter(p =&gt; p.approval === </span><span class="s4">'Pending'</span><span class="s2">).length} icon={&lt;</span><span class="s3">Clock</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} color={{bg: </span><span class="s4">'bg-yellow-100'</span><span class="s2">, text: </span><span class="s4">'text-yellow-600'</span><span class="s2">}} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">KpiCard</span><span class="s2"> title=</span><span class="s4">"Total Budget"</span><span class="s2"> value={</span><span class="s4">`</span><span class="s8">$</span><span class="s2">${(totalBudget / </span><span class="s7">1000000</span><span class="s2">).toFixed(</span><span class="s7">2</span><span class="s2">)}</span><span class="s4">M`</span><span class="s2">} icon={&lt;</span><span class="s3">DollarSign</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} color={{bg: </span><span class="s4">'bg-green-100'</span><span class="s2">, text: </span><span class="s4">'text-green-600'</span><span class="s2">}} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">KpiCard</span><span class="s2"> title=</span><span class="s4">"Projects at Risk"</span><span class="s2"> value={projects.filter(p =&gt; p.health === </span><span class="s4">'At Risk'</span><span class="s2">).length} icon={&lt;</span><span class="s3">AlertTriangle</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} color={{bg: </span><span class="s4">'bg-red-100'</span><span class="s2">, text: </span><span class="s4">'text-red-600'</span><span class="s2">}}/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span>&lt;div className=</span><span class="s2">"grid grid-cols-1 lg:grid-cols-3 gap-6"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;</span><span class="s3">Card</span><span class="s2"> className=</span><span class="s4">"lg:col-span-2"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">BarChart</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Budget vs. Spent"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">ResponsiveContainer</span><span class="s2"> width=</span><span class="s4">"100%"</span><span class="s2"> height={</span><span class="s7">300</span><span class="s2">}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">BarChart</span><span class="s2"> data={budgetData}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">CartesianGrid</span><span class="s2"> strokeDasharray=</span><span class="s4">"3 3"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">XAxis</span><span class="s2"> dataKey=</span><span class="s4">"name"</span><span class="s2"> angle={-</span><span class="s7">45</span><span class="s2">} textAnchor=</span><span class="s4">"end"</span><span class="s2"> height={</span><span class="s7">80</span><span class="s2">} interval={</span><span class="s7">0</span><span class="s2">} stroke=</span><span class="s4">"#4B5563"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">YAxis</span><span class="s2"> tickFormatter={(value) =&gt; </span><span class="s4">`</span><span class="s8">$</span><span class="s2">${value/</span><span class="s7">1000</span><span class="s2">}</span><span class="s4">k`</span><span class="s2">} stroke=</span><span class="s4">"#4B5563"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">Tooltip</span><span class="s2"> formatter={(value) =&gt; </span><span class="s1">new</span><span class="s2"> </span><span class="s3">Intl</span><span class="s2">.</span><span class="s3">NumberFormat</span><span class="s2">(</span><span class="s4">'en-US'</span><span class="s2">, { style: </span><span class="s4">'currency'</span><span class="s2">, currency: </span><span class="s4">'USD'</span><span class="s2"> }).format(value)} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">Legend</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">Bar</span><span class="s2"> dataKey=</span><span class="s4">"Budget"</span><span class="s2"> fill=</span><span class="s4">"#8884d8"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">Bar</span><span class="s2"> dataKey=</span><span class="s4">"Spent"</span><span class="s2"> fill=</span><span class="s4">"#82ca9d"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/</span><span class="s3">BarChart</span><span class="s2">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">ResponsiveContainer</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">PieChart</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Portfolio Health"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">             </span>&lt;</span><span class="s3">ResponsiveContainer</span><span class="s2"> width=</span><span class="s4">"100%"</span><span class="s2"> height={</span><span class="s7">300</span><span class="s2">}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>&lt;</span><span class="s3">PieChart</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s3">Pie</span><span class="s2"> data={portfolioHealthData} dataKey=</span><span class="s4">"value"</span><span class="s2"> nameKey=</span><span class="s4">"name"</span><span class="s2"> cx=</span><span class="s4">"50%"</span><span class="s2"> cy=</span><span class="s4">"50%"</span><span class="s2"> outerRadius={</span><span class="s7">100</span><span class="s2">} label&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>{portfolioHealthData.map((entry, index) =&gt; &lt;</span><span class="s3">Cell</span><span class="s2"> key={</span><span class="s4">`cell-</span><span class="s2">${index}</span><span class="s4">`</span><span class="s2">} fill={entry.color} /&gt;)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/</span><span class="s3">Pie</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s3">Tooltip</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s3">Legend</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/</span><span class="s3">PieChart</span><span class="s2">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">ResponsiveContainer</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"flex justify-between items-center mb-4"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">ListChecks</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">} /&gt;} text=</span><span class="s4">"Project Overview"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>{userRole === </span><span class="s4">"Project Manager"</span><span class="s2"> &amp;&amp; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>&lt;button onClick={() =&gt; setIsModalOpen(</span><span class="s1">true</span><span class="s2">)} className=</span><span class="s4">"bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"</span><span class="s2">&gt;&lt;</span><span class="s3">PlusCircle</span><span class="s2"> size={</span><span class="s7">16</span><span class="s2">} className=</span><span class="s4">"mr-2"</span><span class="s2">/&gt; </span><span class="s3">New</span><span class="s2"> </span><span class="s3">Project</span><span class="s2">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s4">"overflow-x-auto"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;table className=</span><span class="s4">"w-full text-left"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;thead&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;tr className=</span><span class="s4">"border-b bg-gray-50"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Project</span><span class="s2"> </span><span class="s3">Name</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Manager</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Status</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Progress</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">Health</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;th className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span><span class="s3">End</span><span class="s2"> </span><span class="s3">Date</span><span class="s2">&lt;/th&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;/tr&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/thead&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;tbody&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>{projects.map(p =&gt; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;tr key={p.id} className=</span><span class="s4">"border-b hover:bg-gray-50 cursor-pointer"</span><span class="s2"> onClick={() =&gt; onProjectSelect(p)}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;td className=</span><span class="s4">"p-3 font-medium text-gray-800"</span><span class="s2">&gt;{p.name}&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;td className=</span><span class="s4">"p-3 text-gray-600"</span><span class="s2">&gt;{p.manager}&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;td className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;span className={</span><span class="s4">`px-2 py-1 text-xs font-semibold rounded-full </span><span class="s2">${getStatusColor(p.status)}</span><span class="s4">`</span><span class="s2">}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>{p.status}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;td className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;div className=</span><span class="s4">"flex items-center"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s3">ProgressBar</span><span class="s2"> value={p.progress} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;span className=</span><span class="s4">"ml-2 text-sm text-gray-600"</span><span class="s2">&gt;{p.progress}%&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;td className=</span><span class="s4">"p-3"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;span className={</span><span class="s4">`font-semibold </span><span class="s2">${getHealthColor(p.health)}</span><span class="s4">`</span><span class="s2">}&gt;{p.health}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;td className=</span><span class="s4">"p-3 text-gray-600"</span><span class="s2">&gt;{p.endDate}&lt;/td&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/tr&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>))}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/tbody&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;/table&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>)</span></p>
-<p class="p1"><span class="s2">};</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s1">const</span><span class="s2"> </span><span class="s3">ProjectDetails</span><span class="s2"> = ({ project, onBack, userRole, onUpdateProject }) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [activeTab, setActiveTab] = useState(</span><span class="s4">'summary'</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [isEditing, setIsEditing] = useState(</span><span class="s1">false</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [editedProject, setEditedProject] = useState(project);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">// Sync local state if the main project prop changes from the outside</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>useEffect(() =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setEditedProject(project);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}, [project]);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleInputChange = (e) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> { name, value } = e.target;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setEditedProject(prev =&gt; ({...prev, [name]: name === </span><span class="s4">'budget'</span><span class="s2"> ? parseFloat(value) || </span><span class="s7">0</span><span class="s2"> : value}));</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleNestedInputChange = (area, field, value) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setEditedProject(prev =&gt; ({</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>...prev,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>[area]: {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>...prev[area],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>[field]: value</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>}))</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleSave = () =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>onUpdateProject(editedProject);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setIsEditing(</span><span class="s1">false</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> isManagerOfProject = userRole === </span><span class="s4">'Project Manager'</span><span class="s2"> &amp;&amp; (project.manager === </span><span class="s4">"Alex Green"</span><span class="s2"> || project.manager === </span><span class="s4">"Diana Prince"</span><span class="s2">);</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> tabContent = {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>summary: &lt;</span><span class="s3">SummaryTab</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>isEditing={isEditing}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>editedProject={editedProject}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>project={project}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>handleInputChange={handleInputChange}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>handleNestedInputChange={handleNestedInputChange}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>/&gt;,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>schedule: &lt;</span><span class="s3">GanttTab</span><span class="s2"> project={project} /&gt;,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>stakeholders: &lt;</span><span class="s3">StakeholdersTab</span><span class="s2"> project={project} /&gt;,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>risks: &lt;</span><span class="s3">RisksAndChangesTab</span><span class="s2"> project={project} /&gt;,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div className=</span><span class="s4">"space-y-6"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">       </span>&lt;div className=</span><span class="s2">"flex justify-between items-center"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;button onClick={onBack} className=</span><span class="s2">"flex items-center text-blue-600 hover:underline font-semibold"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">ArrowRight</span><span class="s2"> className=</span><span class="s4">"transform rotate-180 mr-2"</span><span class="s2"> size={</span><span class="s7">16</span><span class="s2">} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span></span><span class="s3">Back</span><span class="s2"> to </span><span class="s3">Dashboard</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/button&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"flex items-center space-x-2"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>{isManagerOfProject &amp;&amp; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>isEditing ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;button onClick={handleSave} className=</span><span class="s4">"bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center"</span><span class="s2">&gt;&lt;</span><span class="s3">Save</span><span class="s2"> size={</span><span class="s7">16</span><span class="s2">} className=</span><span class="s4">"mr-2"</span><span class="s2">/&gt;</span><span class="s3">Save</span><span class="s2"> </span><span class="s3">Changes</span><span class="s2">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>) : (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;button onClick={() =&gt; setIsEditing(</span><span class="s1">true</span><span class="s2">)} className=</span><span class="s4">"bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center"</span><span class="s2">&gt;&lt;</span><span class="s3">Edit</span><span class="s2"> size={</span><span class="s7">16</span><span class="s2">} className=</span><span class="s4">"mr-2"</span><span class="s2">/&gt;</span><span class="s3">Edit</span><span class="s2"> </span><span class="s3">Project</span><span class="s2">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>)</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>{userRole === </span><span class="s4">'Higher Management'</span><span class="s2"> &amp;&amp; project.approval === </span><span class="s4">'Pending'</span><span class="s2"> &amp;&amp; (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;div className=</span><span class="s4">"flex space-x-2"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                  </span>&lt;button className=</span><span class="s2">"bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center"</span><span class="s5">&gt;&lt;</span><span class="s3">CheckCircle</span><span class="s5"> size={</span><span class="s7">16</span><span class="s5">} className=</span><span class="s2">"mr-2"</span><span class="s5">/&gt;</span><span class="s3">Approve</span><span class="s5">&lt;/button&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                  </span>&lt;button className=</span><span class="s2">"bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center"</span><span class="s5">&gt;&lt;</span><span class="s3">XCircle</span><span class="s5"> size={</span><span class="s7">16</span><span class="s5">} className=</span><span class="s2">"mr-2"</span><span class="s5">/&gt;</span><span class="s3">Reject</span><span class="s5">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">      </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">          </span>&lt;div className=</span><span class="s2">"flex flex-col sm:flex-row justify-between sm:items-center"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>{isEditing ? (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                     </span>&lt;input </span><span class="s1">type</span><span class="s2">=</span><span class="s4">"text"</span><span class="s2"> name=</span><span class="s4">"name"</span><span class="s2"> value={editedProject.name} onChange={handleInputChange} className=</span><span class="s4">"text-3xl font-bold text-gray-900 border-gray-300 rounded-md shadow-sm"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>) : (</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;h1 className=</span><span class="s4">"text-3xl font-bold text-gray-900"</span><span class="s2">&gt;{project.name}&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>)}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;p className=</span><span class="s4">"text-gray-500 mt-1"</span><span class="s2">&gt;{project.department} </span><span class="s3">Department</span><span class="s2"> </span><span class="s8">•</span><span class="s2"> </span><span class="s3">PM</span><span class="s2">: {project.manager}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">              </span>&lt;div className=</span><span class="s2">"mt-4 sm:mt-0 flex items-center space-x-4"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;span className={</span><span class="s2">`px-3 py-1 text-sm font-bold rounded-full </span><span class="s5">${</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>project.approval === </span><span class="s4">'Approved'</span><span class="s2"> ? </span><span class="s4">'bg-green-100 text-green-800'</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>: project.approval === </span><span class="s4">'Rejected'</span><span class="s2"> ? </span><span class="s4">'bg-red-100 text-red-800'</span><span class="s2"><span class="Apple-converted-space"> </span></span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                    </span>: </span><span class="s2">'bg-yellow-100 text-yellow-800'</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>}</span><span class="s4">`</span><span class="s2">}&gt;{project.approval}&lt;/span&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;span className={</span><span class="s2">`flex items-center text-sm font-semibold`</span><span class="s5">}&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>&lt;div className={</span><span class="s4">`w-3 h-3 rounded-full mr-2 </span><span class="s2">${getPriorityColor(project.priority)}</span><span class="s4">`</span><span class="s2">}&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                  </span>{project.priority} </span><span class="s3">Priority</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">      </span>&lt;div className=</span><span class="s2">"border-b border-gray-200"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;nav className=</span><span class="s4">"flex flex-wrap -mb-px"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">TabButton</span><span class="s2"> text=</span><span class="s4">"Summary"</span><span class="s2"> active={activeTab === </span><span class="s4">'summary'</span><span class="s2">} onClick={() =&gt; setActiveTab(</span><span class="s4">'summary'</span><span class="s2">)} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">TabButton</span><span class="s2"> text=</span><span class="s4">"Schedule"</span><span class="s2"> active={activeTab === </span><span class="s4">'schedule'</span><span class="s2">} onClick={() =&gt; setActiveTab(</span><span class="s4">'schedule'</span><span class="s2">)} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">TabButton</span><span class="s2"> text=</span><span class="s4">"Stakeholders"</span><span class="s2"> active={activeTab === </span><span class="s4">'stakeholders'</span><span class="s2">} onClick={() =&gt; setActiveTab(</span><span class="s4">'stakeholders'</span><span class="s2">)} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>&lt;</span><span class="s3">TabButton</span><span class="s2"> text=</span><span class="s4">"Risks &amp; Changes"</span><span class="s2"> active={activeTab === </span><span class="s4">'risks'</span><span class="s2">} onClick={() =&gt; setActiveTab(</span><span class="s4">'risks'</span><span class="s2">)} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>{(userRole === </span><span class="s4">'Project Manager'</span><span class="s2"> || userRole === </span><span class="s4">'Higher Management'</span><span class="s2">) &amp;&amp;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">TabButton</span><span class="s2"> text=</span><span class="s4">"Documents"</span><span class="s2"> active={activeTab === </span><span class="s4">'documents'</span><span class="s2">} onClick={() =&gt; setActiveTab(</span><span class="s4">'documents'</span><span class="s2">)} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/nav&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div className=</span><span class="s4">"mt-6"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{tabContent[activeTab]}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{activeTab === </span><span class="s4">'documents'</span><span class="s2"> &amp;&amp;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;</span><span class="s3">SectionTitle</span><span class="s2"> icon={&lt;</span><span class="s3">Download</span><span class="s2"> size={</span><span class="s7">24</span><span class="s2">}/&gt;} text=</span><span class="s4">"Project Documents"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;p className=</span><span class="s4">"text-gray-600 mb-4"</span><span class="s2">&gt;</span><span class="s3">Download</span><span class="s2"> the original project lifecycle documents.&lt;/p&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;div className=</span><span class="s2">"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                    </span>&lt;a href=</span><span class="s2">"#"</span><span class="s5"> className=</span><span class="s2">"flex items-center p-3 bg-gray-100 hover:bg-blue-100 rounded-lg transition-colors"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s3">FileText</span><span class="s2"> className=</span><span class="s4">"text-blue-600 mr-3"</span><span class="s2">/&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;span className=</span><span class="s4">"font-medium text-gray-800"</span><span class="s2">&gt;</span><span class="s3">Business_Case</span><span class="s2">.docx&lt;/span&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/a&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s3">Card</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>)</span></p>
-<p class="p1"><span class="s2">};</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p6"><span class="s2">export</span><span class="s5"> </span><span class="s2">default</span><span class="s5"> </span><span class="s2">function</span><span class="s5"> </span><span class="s3">App</span><span class="s5">() {</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s5"> [userRole, setUserRole] = useState(</span><span class="s4">"Project Department"</span><span class="s5">); </span><span class="s2">// Project Manager, Project Department, Higher Management</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [selectedProject, setSelectedProject] = useState(</span><span class="s1">null</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> [projects, setProjects] = useState(initialProjects);</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleProjectSelect = (project) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setSelectedProject(project);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleBackToDashboard = () =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>setSelectedProject(</span><span class="s1">null</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleAddNewProject = (newProjectData) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">const</span><span class="s2"> newProject = {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>id: projects.length + </span><span class="s7">1</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>...newProjectData,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>status: </span><span class="s4">"Initiation"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>approval: </span><span class="s4">"Pending"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>progress: </span><span class="s7">0</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>health: </span><span class="s4">"On Track"</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>spent: </span><span class="s7">0</span><span class="s2">,</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>businessCase: { problem: </span><span class="s4">"TBD"</span><span class="s2">, solution: </span><span class="s4">"TBD"</span><span class="s2">, benefits: [] },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>projectCharter: { scopeIn: [], scopeOut: [], successCriteria: </span><span class="s4">"TBD"</span><span class="s2"> },</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>tasks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>risks: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>changeRequests: [],</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">          </span>stakeholders: []</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setProjects(prev =&gt; [...prev, newProject]);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> handleUpdateProject = (updatedProject) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setProjects(prev =&gt; prev.map(p =&gt; p.id === updatedProject.id ? updatedProject : p));</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>setSelectedProject(updatedProject);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">const</span><span class="s2"> </span><span class="s3">RoleBasedWrapper</span><span class="s2"> = ({ children }) =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">const</span><span class="s2"> getRoleIcon = () =&gt; {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s1">switch</span><span class="s2">(userRole) {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s1">case</span><span class="s2"> </span><span class="s4">'Project Manager'</span><span class="s2">: </span><span class="s1">return</span><span class="s2"> &lt;</span><span class="s3">User</span><span class="s2"> size={</span><span class="s7">20</span><span class="s2">} className=</span><span class="s4">"text-blue-500"</span><span class="s2"> /&gt;;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s1">case</span><span class="s2"> </span><span class="s4">'Project Department'</span><span class="s2">: </span><span class="s1">return</span><span class="s2"> &lt;</span><span class="s3">Building</span><span class="s2"> size={</span><span class="s7">20</span><span class="s2">} className=</span><span class="s4">"text-purple-500"</span><span class="s2">/&gt;;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span></span><span class="s1">case</span><span class="s2"> </span><span class="s4">'Higher Management'</span><span class="s2">: </span><span class="s1">return</span><span class="s2"> &lt;</span><span class="s3">Briefcase</span><span class="s2"> size={</span><span class="s7">20</span><span class="s2">} className=</span><span class="s4">"text-green-500"</span><span class="s2"> /&gt;;</span></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">            </span></span><span class="s2">default</span><span class="s5">: </span><span class="s2">return</span><span class="s5"> </span><span class="s2">null</span><span class="s5">;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">return</span><span class="s2"> (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span>&lt;div className=</span><span class="s2">"bg-gray-100 min-h-screen font-sans text-gray-900"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span>&lt;header className=</span><span class="s2">"bg-white shadow-sm p-4 sticky top-0 z-10"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;div className=</span><span class="s2">"max-w-7xl mx-auto flex justify-between items-center"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;div className=</span><span class="s4">"flex items-center"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;</span><span class="s3">GanttChartSquare</span><span class="s2"> size={</span><span class="s7">32</span><span class="s2">} className=</span><span class="s4">"text-blue-600"</span><span class="s2"> /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                        </span>&lt;h1 className=</span><span class="s4">"text-2xl font-bold ml-2 text-gray-800"</span><span class="s2">&gt;</span><span class="s3">Project</span><span class="s2"> </span><span class="s3">Lifecycle</span><span class="s2"> </span><span class="s3">Dashboard</span><span class="s2">&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;div className=</span><span class="s4">"flex items-center space-x-4"</span><span class="s2">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                       </span>&lt;div className=</span><span class="s2">"flex items-center space-x-2 bg-gray-100 p-2 rounded-lg"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                           </span>{getRoleIcon()}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;select value={userRole} onChange={e =&gt; setUserRole(e.target.value)} className=</span><span class="s4">"bg-transparent font-semibold focus:outline-none"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Project</span><span class="s2"> </span><span class="s3">Manager</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Project</span><span class="s2"> </span><span class="s3">Department</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                                </span>&lt;option&gt;</span><span class="s3">Higher</span><span class="s2"> </span><span class="s3">Management</span><span class="s2">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                            </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                       </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/header&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span>&lt;main className=</span><span class="s2">"p-4 sm:p-6 max-w-7xl mx-auto"</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>{children}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/main&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">// Filter projects based on role</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">let</span><span class="s2"> visibleProjects = projects;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">if</span><span class="s2">(userRole === </span><span class="s4">'Project Manager'</span><span class="s2">) {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>visibleProjects = projects.filter(p =&gt; [</span><span class="s4">"Alex Green"</span><span class="s2">, </span><span class="s4">"Diana Prince"</span><span class="s2">].includes(p.manager));</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>} </span><span class="s1">else</span><span class="s2"> </span><span class="s1">if</span><span class="s2"> (userRole === </span><span class="s4">'Higher Management'</span><span class="s2">) {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">      </span>visibleProjects = projects.filter(p =&gt; p.approval === </span><span class="s4">'Pending'</span><span class="s2"> || p.health === </span><span class="s4">'At Risk'</span><span class="s2">);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">if</span><span class="s2"> (selectedProject) {</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">if</span><span class="s2">(userRole === </span><span class="s4">'Project Manager'</span><span class="s2"> &amp;&amp; ![</span><span class="s4">"Alex Green"</span><span class="s2">, </span><span class="s4">"Diana Prince"</span><span class="s2">].includes(selectedProject.manager)){</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s1">return</span><span class="s2"> (</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span>&lt;</span><span class="s2">RoleBasedWrapper</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                 </span>&lt;div className=</span><span class="s4">"text-center p-10"</span><span class="s2">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;</span><span class="s3">AlertTriangle</span><span class="s2"> className=</span><span class="s4">"mx-auto text-red-500"</span><span class="s2"> size={</span><span class="s7">48</span><span class="s2">} /&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;h2 className=</span><span class="s4">"mt-4 text-2xl font-bold"</span><span class="s2">&gt;</span><span class="s3">Access</span><span class="s2"> </span><span class="s3">Denied</span><span class="s2">&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;p className=</span><span class="s4">"mt-2 text-gray-600"</span><span class="s2">&gt;</span><span class="s3">You</span><span class="s2"> </span><span class="s1">do</span><span class="s2"> not have permission to view </span><span class="s1">this</span><span class="s2"> project.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                    </span>&lt;button onClick={handleBackToDashboard} className=</span><span class="s4">"mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"</span><span class="s2">&gt;</span><span class="s3">Go</span><span class="s2"> to </span><span class="s3">Dashboard</span><span class="s2">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">            </span>&lt;/</span><span class="s2">RoleBasedWrapper</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>)</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">return</span><span class="s2"> (</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">RoleBasedWrapper</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;</span><span class="s3">ProjectDetails</span><span class="s2"> project={selectedProject} onBack={handleBackToDashboard} userRole={userRole} onUpdateProject={handleUpdateProject}/&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span>&lt;/</span><span class="s2">RoleBasedWrapper</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">    </span>);</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
-<p class="p6"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> (</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span>&lt;</span><span class="s2">RoleBasedWrapper</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>{userRole === </span><span class="s4">'Higher Management'</span><span class="s2"> &amp;&amp; (</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">            </span>&lt;div className=</span><span class="s2">"mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg"</span><span class="s5">&gt;</span></p>
-<p class="p5"><span class="s5"><span class="Apple-converted-space">                </span>&lt;h3 className=</span><span class="s2">"text-lg font-bold text-yellow-800 flex items-center"</span><span class="s5">&gt;&lt;</span><span class="s3">AlertTriangle</span><span class="s5"> className=</span><span class="s2">"mr-2"</span><span class="s5">/&gt;</span><span class="s3">Management</span><span class="s5"> </span><span class="s3">View</span><span class="s5">&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">                </span>&lt;p className=</span><span class="s4">"text-yellow-700"</span><span class="s2">&gt;</span><span class="s3">Projects</span><span class="s2"> requiring approval or at risk are shown below. </span><span class="s3">Select</span><span class="s2"> a project to review and approve/reject.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>)}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">        </span>&lt;</span><span class="s2">DashboardOverview</span><span class="s5"><span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>projects={userRole === </span><span class="s4">'Project Department'</span><span class="s2"> ? projects : visibleProjects}<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>onProjectSelect={handleProjectSelect}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>userRole={userRole}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">            </span>onAddNewProject={handleAddNewProject}</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">        </span>/&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span>&lt;/</span><span class="s2">RoleBasedWrapper</span><span class="s5">&gt;</span></p>
-<p class="p1"><span class="s2"><span class="Apple-converted-space">  </span>);</span></p>
-<p class="p1"><span class="s2">}</span></p>
-<p class="p3"><span class="s6"></span><br></p>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-7xl mx-auto">
+
+    <header class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Project Dashboard</h1>
+      <button onclick="toggleAddForm()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add Project</button>
+    </header>
+
+    <!-- KPI Metrics -->
+    <div id="kpi-metrics" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
+
+    <!-- Add Project Form -->
+    <div id="add-form" class="hidden mb-6 bg-white shadow rounded-lg p-6">
+      <form id="newProjectForm" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <input id="np-name" type="text" placeholder="Project Name" required class="border p-2 rounded w-full"/>
+          <input id="np-manager" type="text" placeholder="Manager" required class="border p-2 rounded w-full"/>
+          <input id="np-department" type="text" placeholder="Department" required class="border p-2 rounded w-full"/>
+          <select id="np-status" class="border p-2 rounded w-full"><option>Initiation</option><option>Planning</option><option>Executing</option><option>Closing</option><option>Completed</option></select>
+          <select id="np-health" class="border p-2 rounded w-full"><option>On Track</option><option>Minor Issues</option><option>At Risk</option><option>Completed</option></select>
+          <select id="np-priority" class="border p-2 rounded w-full"><option>High</option><option>Medium</option><option>Low</option></select>
+          <input id="np-start" type="date" class="border p-2 rounded w-full"/>
+          <input id="np-end" type="date" class="border p-2 rounded w-full"/>
+          <input id="np-budget" type="number" placeholder="Budget" class="border p-2 rounded w-full"/>
+          <input id="np-spent" type="number" placeholder="Spent" class="border p-2 rounded w-full"/>
+          <input id="np-progress" type="number" min="0" max="100" placeholder="Progress (%)" class="border p-2 rounded w-full"/>
+        </div>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create Project</button>
+      </form>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div id="dashboard" class="space-y-6"></div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-6">
+    <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+        <h2 id="modal-title" class="text-xl font-bold"></h2>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-lg">&times;</button>
+      </div>
+      <div id="modal-content" class="p-6 space-y-6"></div>
+    </div>
+  </div>
+
+<script>
+  const LS_KEY = "dashboard_projects";
+  let projects = JSON.parse(localStorage.getItem(LS_KEY)) || [];
+
+  // Utility: Save & re-render
+  function save() {
+    localStorage.setItem(LS_KEY, JSON.stringify(projects));
+    renderKPIs();
+    renderDashboard();
+  }
+
+  // KPI Rendering
+  function renderKPIs(){
+    const el = document.getElementById("kpi-metrics");
+    const total = projects.length;
+    const avg = total ? Math.round(projects.reduce((s,p)=>s+p.progress,0)/total) : 0;
+    const budget = projects.reduce((s,p)=>s+(p.budget||0),0);
+    const spent = projects.reduce((s,p)=>s+(p.spent||0),0);
+    el.innerHTML = `
+      ${["Total Projects", "Avg. Progress", "Total Budget", "Total Spent"].map((label,i)=>`
+        <div class="bg-white shadow rounded-lg p-4">
+          <p class="text-sm text-gray-500">${label}</p>
+          <p class="text-2xl font-bold text-gray-800">${
+            i===0? total : i===1? avg+"%" : "$"+(i===2? budget : spent).toLocaleString()
+          }</p>
+        </div>
+      `).join("")}
+    `;
+  }
+
+  // Color Getters
+  const cols = {
+    status: s => s==='Executing'?'bg-blue-100 text-blue-800':s==='Planning'?'bg-yellow-100 text-yellow-800':s==='Initiation'?'bg-purple-100 text-purple-800':'bg-gray-100 text-gray-800',
+    health: h => h==='On Track'?'text-green-600':h==='Minor Issues'?'text-yellow-600':h==='At Risk'?'text-red-600':'text-gray-600',
+    priority: p => p==='High'?'bg-red-500':p==='Medium'?'bg-yellow-500':'bg-green-500'
+  };
+
+  // Dashboard Cards
+  function renderDashboard(){
+    const d = document.getElementById("dashboard");
+    d.innerHTML = "";
+    projects.forEach(p=>{
+      const card = document.createElement("div");
+      card.className = "bg-white shadow rounded-lg p-6 relative";
+      card.innerHTML = `
+        <button onclick="deleteProject(${p.id})" class="absolute top-4 right-4 text-red-500 hover:text-red-700">&times;</button>
+        <h2 class="text-xl font-bold mb-2">${p.name}</h2>
+        <p class="text-sm text-gray-600 mb-1">Manager: ${p.manager} | ${p.department}</p>
+        <div class="flex gap-2 mb-2">
+          <span class="text-xs px-2 py-1 rounded ${cols.status(p.status)}">${p.status}</span>
+          <span class="text-xs px-2 py-1 rounded border ${cols.health(p.health)} border-gray-300">${p.health}</span>
+          <span class="text-xs px-2 py-1 rounded ${cols.priority(p.priority)} text-white">${p.priority}</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+          <div class="bg-blue-600 h-2.5 rounded-full" style="width:${p.progress}%"></div>
+        </div>
+        <p class="text-sm text-gray-600 mb-3">Progress: ${p.progress}% | Budget: $${p.budget.toLocaleString()} | Spent: $${p.spent.toLocaleString()}</p>
+        <button onclick="openModal(${p.id})" class="text-sm text-blue-600 font-medium hover:underline">View Details</button>
+      `;
+      d.appendChild(card);
+    });
+  }
+
+  function deleteProject(id){
+    if(confirm("Delete this project?")){
+      projects = projects.filter(p=>p.id!==id);
+      save();
+    }
+  }
+
+  // Modal with edit, tasks, charts, strategy
+  function openModal(id){
+    const p = projects.find(x=>x.id===id);
+    const modal = document.getElementById("modal");
+    document.getElementById("modal-title").innerText = p.name;
+    const mc = document.getElementById("modal-content");
+    mc.innerHTML = `
+      <form id="editForm" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          ${["name","manager","department"].map(f=>`<input name="${f}" value="${p[f]}" class="border p-2 rounded w-full"/>`).join("")}
+          ${["status","health","priority"].map(f=>`
+            <select name="${f}" class="border p-2 rounded w-full">${{
+              status:["Initiation","Planning","Executing","Closing","Completed"],
+              health:["On Track","Minor Issues","At Risk","Completed"],
+              priority:["High","Medium","Low"]
+            }[f].map(o=>`<option${o===p[f]?" selected":""}>${o}</option>`).join("")}</select>
+          `).join("")}
+          <input type="date" name="startDate" value="${p.startDate}" class="border p-2 rounded w-full"/>
+          <input type="date" name="endDate" value="${p.endDate}" class="border p-2 rounded w-full"/>
+          <input name="budget" type="number" value="${p.budget}" class="border p-2 rounded w-full"/>
+          <input name="spent" type="number" value="${p.spent}" class="border p-2 rounded w-full"/>
+          <input name="progress" type="number" min="0" max="100" value="${p.progress}" class="border p-2 rounded w-full"/>
+        </div>
+        <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save Changes</button>
+      </form>
+      <h3 class="text-lg font-semibold pt-4">Strategic Objectives</h3>
+      <ul class="list-disc list-inside text-sm text-gray-700">
+        ${(p.strategicObjectives||[]).map(o=>`<li>${o}</li>`).join("")}
+      </ul>
+      <h3 class="text-lg font-semibold pt-4">Task List</h3>
+      <ul id="task-list" class="space-y-4"></ul>
+      <div class="flex gap-2 mt-2">
+        <input id="new-task-name" placeholder="Task name" class="border p-2 rounded flex-grow"/>
+        <input id="new-task-progress" type="number" min="0" max="100" placeholder="%" class="border p-2 w-20 rounded"/>
+        <button class="px-3 bg-green-600 text-white rounded hover:bg-green-700" onclick="addTask(${p.id});return false">Add</button>
+      </div>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <canvas id="budget-chart-${p.id}"></canvas>
+        <canvas id="overall-trend"></canvas>
+        <canvas id="dept-trend"></canvas>
+      </div>`;
+      
+    document.getElementById("editForm").onsubmit = e=>{
+      e.preventDefault();
+      new FormData(e.target).forEach((v,k)=>{
+        p[k] = ["budget","spent","progress"].includes(k)?parseInt(v):v;
+      });
+      save();
+      openModal(id);
+    };
+
+    function renderTasks(){
+      const tl = document.getElementById("task-list");
+      tl.innerHTML = "";
+      (p.tasks||[]).forEach((t,i)=>{
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span>${t.name} (${t.progress}%)</span>
+            <button class="text-red-500" onclick="p.tasks.splice(${i},1);save();openModal(${p.id});">✕</button>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+            <div class="bg-green-500 h-2.5 rounded-full" style="width:${t.progress}%"></div>
+          </div>`;
+        tl.appendChild(li);
+      });
+    }
+
+    window.addTask = projId=>{
+      const tp = document.getElementById("new-task-name").value.trim();
+      const pg = parseInt(document.getElementById("new-task-progress").value) || 0;
+      if(tp){
+        p.tasks = p.tasks || [];
+        p.tasks.push({name:tp, progress:pg});
+        save();
+        openModal(projId);
+      }
+    };
+
+    // Budget Chart
+    new Chart(document.getElementById(`budget-chart-${p.id}`), {
+      type: 'doughnut',
+      data:{
+        labels:['Spent','Remaining'],
+        datasets:[{
+          data:[p.spent, p.budget - p.spent],
+          backgroundColor:['#3b82f6','#ddd']
+        }]
+      },
+      options:{cutout:'50%', responsive:true}
+    }); // :contentReference[oaicite:9]{index=9}
+
+    // Overall & Department Trends
+    const quarters = ["Q1","Q2","Q3","Q4"];
+    const overall = quarters.map((_,i)=>{
+      const arr = projects.filter(pp=>Math.floor(new Date(pp.endDate).getMonth()/3)===i);
+      return arr.length?Math.round(arr.reduce((s,pp)=>s+pp.progress,0)/arr.length):0;
+    });
+    const deptMap = {};
+    projects.forEach(pp=>{
+      const q = Math.floor(new Date(pp.endDate).getMonth()/3);
+      if(!deptMap[pp.department]) deptMap[pp.department]=quarters.map(()=>[]);
+      deptMap[pp.department][q].push(pp.progress);
+    });
+    const deptDatasets = Object.keys(deptMap).map(dept=>({
+      label: dept,
+      data: deptMap[dept].map(a=>a.length?Math.round(a.reduce((s,v)=>s+v,0)/a.length):0),
+      borderColor: `hsl(${Math.random()*360},70%,50%)`,
+      fill:false, tension:0.3
+    }));
+    new Chart(document.getElementById("overall-trend"), {
+      type:'line',
+      data:{labels:quarters, datasets:[{label:'Overall Avg Progress', data:overall, borderColor:'blue', tension:0.3}]},
+      options:{responsive:true, plugins:{title:{display:true,text:'Org-Wide Trend (by Quarter)'}}, scales:{y:{beginAtZero:true}}}
+    }); // :contentReference[oaicite:10]{index=10}
+    new Chart(document.getElementById("dept-trend"), {
+      type:'line',
+      data:{labels:quarters, datasets:deptDatasets},
+      options:{responsive:true, plugins:{title:{display:true,text:'Department Progress Trends'}}, scales:{y:{beginAtZero:true}}}
+    }); // :contentReference[oaicite:11]{index=11}
+
+    renderTasks();
+    modal.classList.remove("hidden");
+  }
+
+  // New Project Form
+  document.getElementById("newProjectForm").onsubmit = e=>{
+    e.preventDefault();
+    const f = e.target;
+    const newP = {
+      id: Date.now(),
+      name: f['np-name'].value,
+      manager: f['np-manager'].value,
+      department: f['np-department'].value,
+      status: f['np-status'].value,
+      health: f['np-health'].value,
+      priority: f['np-priority'].value,
+      startDate: f['np-start'].value,
+      endDate: f['np-end'].value,
+      budget: parseInt(f['np-budget'].value),
+      spent: parseInt(f['np-spent'].value),
+      progress: parseInt(f['np-progress'].value),
+      tasks: [],
+      strategicObjectives: [] // add objectives in code
+    };
+    projects.push(newP);
+    save();
+    toggleAddForm();
+    f.reset();
+  };
+
+  function toggleAddForm(){
+    document.getElementById("add-form").classList.toggle("hidden");
+  }
+  function closeModal(){
+    document.getElementById("modal").classList.add("hidden");
+  }
+
+  // Initial rendering
+  renderKPIs();
+  renderDashboard();
+
+</script>
 </body>
 </html>
+
