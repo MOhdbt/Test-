@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>Project Dashboard Demo</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+
+    /* Minor scrollbar styling */
+
+    .scrollbar { scrollbar-width: thin; scrollbar-color: #9CA3AF #F3F4F6; }
+
+    .scrollbar::-webkit-scrollbar { width: 6px; }
+
+    .scrollbar::-webkit-scrollbar-track { background: #F3F4F6; }
+
+    .scrollbar::-webkit-scrollbar-thumb { background-color: #9CA3AF; border-radius: 3px; }
+
+  </style>
+
+</head>
+
+<body class="bg-gray-100">
+
+  <div id="root"></div>
+
+
+
+<script>
+
+(() => {
+
+  // Initial data
+
+  const projects = [... /* paste your initialProjects JSON array here */];
+
+
+
+  // App state
+
+  let state = {
+
+    role: 'Project Department',
+
+    selected: null,
+
+    editing: false
+
+  };
+
+
+
+  // Helper: deep clone project
+
+  const clone = p => JSON.parse(JSON.stringify(p));
+
+
+
+  // Role icons map
+
+  const roleIcons = {
+
+    'Project Manager': '<svg ...PM icon svg...></svg>',
+
+    'Project Department': '<svg ...Dept icon svg...></svg>',
+
+    'Higher Management': '<svg ...HM icon svg...></svg>'
+
+  };
+
+
+
+  // Utility DOM functions
+
+  const el = (tag, attrs = {}, ...kids) => {
+
+    const e = document.createElement(tag);
+
+    for (const k in attrs) {
+
+      if (k === 'class') e.className = attrs[k];
+
+      else if (k === 'html') e.innerHTML = attrs[k];
+
+      else e.setAttribute(k, attrs[k]);
+
+    }
+
+    kids.flat().forEach(c => typeof c === 'string' ? e.appendChild(document.createTextNode(c)) : e.appendChild(c));
+
+    return e;
+
+  };
+
+
+
+  // Main render function
+
+  function render() {
+
+    const root = el('div', {class: 'min-h-screen'});
+
+    renderHeader(root);
+
+    state.selected ? renderDetails(root) : renderOverview(root);
+
+    document.getElementById('root').innerHTML = '';
+
+    document.getElementById('root').appendChild(root);
+
+  }
+
+
+
+  function renderHeader(root) {
+
+    const hdr = el('header', {class: 'bg-white p-4 sticky top-0 shadow'});
+
+    const roleSel = el('select', {class:'ml-2', onchange:e=>{state.role=e.target.value; state.selected=null; render();}});
+
+    ['Project Manager','Project Department','Higher Management'].forEach(r => {
+
+      const opt = el('option', {value:r}, r);
+
+      if (r===state.role) opt.selected = true;
+
+      roleSel.appendChild(opt);
+
+    });
+
+    hdr.append(
+
+      el('h1', {class:'text-2xl font-bold inline'}, 'Project Dashboard'),
+
+      roleSel
+
+    );
+
+    root.appendChild(hdr);
+
+  }
+
+
+
+  function filterProjects() {
+
+    if (state.role==='Project Manager') return projects.filter(p => ['Alex Green','Diana Prince'].includes(p.manager));
+
+    if (state.role==='Higher Management') return projects.filter(p => p.approval==='Pending' || p.health==='At Risk');
+
+    return projects;
+
+  }
+
+
+
+  function renderOverview(root) {
+
+    const filtered = filterProjects();
+
+
+
+    // KPI data
+
+    const kpiCards = [
+
+      { title:"Active Projects", value:filtered.filter(p=>p.status!=='Closing').length, color:'bg-blue-100', icon:'Briefcase' },
+
+      { title:"Pending Approvals", value:filtered.filter(p=>p.approval==='Pending').length, color:'bg-yellow-100', icon:'Clock' },
+
+      { title:"Total Budget", value:`$${(filtered.reduce((a,p)=>a+p.budget,0)/1e6).toFixed(2)}M`, color:'bg-green-100', icon:'DollarSign' },
+
+      { title:"Projects at Risk", value:filtered.filter(p=>p.health==='At Risk').length, color:'bg-red-100', icon:'AlertTriangle' }
+
+    ];
+
+    const kpiRow = el('div', {class:'grid grid-cols-1 sm:grid-cols-4 gap-4 p-4'});
+
+    kpiCards.forEach(c => {
+
+      kpiRow.appendChild(el('div',{class:`p-4 bg-white shadow rounded flex items-center ${c.color}`},
+
+        el('div',{class:'mr-4'}, c.icon),
+
+        el('div',{}, el('div',{class:'text-sm text-gray-600'},c.title), el('div',{class:'text-xl font-bold'},c.value))
+
+      ));
+
+    });
+
+    root.appendChild(kpiRow);
+
+
+
+    // Charts
+
+    const charts = el('div',{class:'grid grid-cols-1 lg:grid-cols-3 gap-4 p-4'});
+
+    const barDiv = el('div',{class:'col-span-2 bg-white p-4 shadow rounded'});
+
+    const pieDiv = el('div',{class:'bg-white p-4 shadow rounded'});
+
+    barDiv.append(el('h2',{class:'font-semibold mb-2'},'Budget vs Spent'), el('canvas',{id:'barChart'}));
+
+    pieDiv.append(el('h2',{class:'font-semibold mb-2'},'Portfolio Health'), el('canvas',{id:'pieChart'}));
+
+    charts.append(barDiv,pieDiv);
+
+    root.appendChild(charts);
+
+
+
+    // Table of projects
+
+    const tbl = el('table',{class:'min-w-full bg-white shadow rounded overflow-hidden'},el('thead',{class:'bg-gray-50'},el('tr',{},
+
+      ['Name','Manager','Status','Progress','Health','End Date'].map(t => el('th',{class:'p-2 text-left'},t))
+
+    )));
+
+    const tb = el('tbody',{});
+
+    filtered.forEach(p=>{
+
+      const row = el('tr',{class:'hover:bg-gray-100 cursor-pointer',onclick:()=>{state.selected=p; render();}},
+
+        el('td',{class:'p-2 font-medium'},p.name),
+
+        el('td',{class:'p-2'},p.manager),
+
+        el('td',{class:'p-2'},p.status),
+
+        el('td",{class:'p-2'},`${p.progress}%`),
+
+        el('td',{class:'p-2'},p.health),
+
+        el('td',{class:'p-2'},p.endDate)
+
+      );
+
+      tb.appendChild(row);
+
+    });
+
+    tbl.appendChild(tb);
+
+    root.appendChild(el('div',{class:'p-4'},tbl));
+
+
+
+    // Render charts
+
+    setTimeout(() => { renderBarChart(filtered); renderPieChart(filtered); }, 0);
+
+  }
+
+
+
+  function renderBarChart(data) {
+
+    const ctx = document.getElementById('barChart').getContext('2d');
+
+    new Chart(ctx, {
+
+      type: 'bar',
+
+      data: {
+
+        labels: data.map(p => p.name),
+
+        datasets: [
+
+          { label: 'Budget', data: data.map(p=>p.budget), backgroundColor:'#8884d8' },
+
+          { label: 'Spent', data: data.map(p=>p.spent), backgroundColor:'#82ca9d' }
+
+        ]
+
+      },
+
+      options: { responsive:true, scales: { y: { beginAtZero:true } } }
+
+    });
+
+  }
+
+
+
+  function renderPieChart(data) {
+
+    const healthCounts = ['On Track','Minor Issues','At Risk','Completed'].map(h => ({
+
+      label: h,
+
+      count: data.filter(p=>p.health===h).length
+
+    }));
+
+    const ctx = document.getElementById('pieChart').getContext('2d');
+
+    new Chart(ctx, {
+
+      type: 'pie',
+
+      data: {
+
+        labels: healthCounts.map(c=>c.label),
+
+        datasets: [{ data: healthCounts.map(c=>c.count), backgroundColor:['#10B981','#F59E0B','#EF4444','#6B7280'] }]
+
+      }
+
+    });
+
+  }
+
+
+
+  // Details modal rendering
+
+  function renderDetails(root) {
+
+    const p = state.selected;
+
+    const modal = el('div',{class:'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'});
+
+    const cont = el('div',{class:'bg-white w-full max-w-4xl max-h-screen overflow-y-auto p-4 rounded-lg shadow'});
+
+    const tabs = ['Summary','Schedule','Stakeholders','Risks & Changes','Documents'];
+
+    let active = 'Summary';
+
+
+
+    const tabButtons = tabs.map(tab =>
+
+      el('button',{class:`px-4 py-2 ${tab===active?'border-b-2 border-blue-600':''}`,onclick:()=>(active=tab,render());},
+
+         tab
+
+      )
+
+    );
+
+    const tabBar = el('div',{class:'flex border-b mb-4'},tabButtons);
+
+    cont.append(
+
+      el('div',{class:'flex justify-between items-center mb-4'},
+
+         el('h1',{class:'text-2xl font-bold'},p.name),
+
+         el('button',{onclick:()=>(state.selected=null,render())},'Close')
+
+      ),
+
+      tabBar,
+
+      el('div',{id:'tabContent'})
+
+    );
+
+    modal.appendChild(cont);
+
+    root.appendChild(modal);
+
+
+
+    function renderTab() {
+
+      const tc = document.getElementById('tabContent');
+
+      tc.innerHTML = '';
+
+      if (active === 'Summary') renderSummary(tc, p);
+
+      if (active === 'Schedule') renderGantt(tc, p);
+
+      if (active === 'Stakeholders') renderStakeholders(tc, p);
+
+      if (active === 'Risks & Changes') renderRisks(tc, p);
+
+      if (active === 'Documents') renderDocs(tc, p);
+
+    }
+
+    renderTab();
+
+  }
+
+
+
+  function renderSummary(elm, p) {
+
+    elm.append(
+
+      el('h2',{class:'text-lg font-semibold mb-2'},'Business Case'),
+
+      el('p',{class:'mb-2'},p.businessCase.problem),
+
+      el('p',{class:'mb-4 italic'},p.businessCase.solution),
+
+      el('h2',{class:'text-lg font-semibold mb-2'},'Project Charter'),
+
+      el('p',{},p.projectCharter.successCriteria)
+
+    );
+
+  }
+
+
+
+  function renderGantt(elm, p) {
+
+    elm.append(el('h2',{class:'text-lg font-semibold mb-2'},'Schedule'));
+
+    if (!p.tasks.length) {
+
+      elm.append(el('p',{class:'text-gray-500'},'No tasks defined'));
+
+      return;
+
+    }
+
+    const container = el('div',{class:'overflow-x-auto scrollbar p-2'}, ...p.tasks.map(t=>{
+
+      return el('div',{class:'mb-3'},`${t.name}: ${t.start} → ${t.end} (${t.progress}%)`);
+
+    }));
+
+    elm.append(container);
+
+  }
+
+
+
+  function renderStakeholders(elm, p) {
+
+    elm.append(el('h2',{class:'text-lg font-semibold mb-2'},'Stakeholders'));
+
+    if (!p.stakeholders.length) { elm.append(el('p',{class:'text-gray-500'},'None')); return; }
+
+    const tbl = el('table',{class:'min-w-full text-left'},el('thead',{class:'bg-gray-50'},el('tr',{},
+
+      ['Name','Role','Influence','Interest'].map(h=>el('th',{class:'p-2'},h))
+
+    )));
+
+    const tb = el('tbody');
+
+    p.stakeholders.forEach(s => {
+
+      tb.append(el('tr',{},
+
+        el('td',{class:'p-2'},s.name),
+
+        el('td',{class:'p-2'},s.role),
+
+        el('td',{class:'p-2'},s.influence),
+
+        el('td',{class:'p-2'},s.interest)
+
+      ));
+
+    });
+
+    tbl.append(tb); elm.append(tbl);
+
+  }
+
+
+
+  function renderRisks(elm, p) {
+
+    elm.append(el('h2',{class:'text-lg font-semibold mb-2'},'Risk Register'));
+
+    p.risks.forEach(r => {
+
+      elm.append(el('div',{class:'p-2 bg-gray-50 rounded mb-2'},
+
+        el('p',{class:'font-semibold'},r.desc), el('p',{},`Priority: ${r.severity}`),
+
+        el('p',{},`Mitigation: ${r.mitigation}`)
+
+      ));
+
+    });
+
+    elm.append(el('h2',{class:'text-lg font-semibold mt-4 mb-2'},'Change Requests'));
+
+    p.changeRequests.forEach(cr => {
+
+      elm.append(el('div',{class:'p-2 bg-gray-50 rounded mb-2'},
+
+        el('p',{class:'font-semibold'},cr.desc), el('p',{},`Status: ${cr.status}`),
+
+        el('p',{},`Date: ${cr.date}`)
+
+      ));
+
+    });
+
+  }
+
+
+
+  function renderDocs(elm) {
+
+    elm.append(el('h2',{class:'text-lg font-semibold mb-2'},'Documents'));
+
+    elm.append(el('p',{}, el('a',{class:'text-blue-600 underline', href:'#'}, 'Business_Case.docx')));
+
+  }
+
+
+
+  render();
+
+})();
+
+</script>
+
+</body>
+
+</html>
